@@ -5,43 +5,55 @@
 #                                                     +:+ +:+         +:+      #
 #    By: fnieto <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2016/04/30 19:43:25 by fnieto            #+#    #+#              #
-#    Updated: 2016/05/08 20:45:12 by fnieto           ###   ########.fr        #
+#    Created: 2016/03/09 20:50:44 by fnieto            #+#    #+#              #
+#    Updated: 2016/05/05 23:02:45 by fnieto           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME=libfts.a
+NAME=lift_test
 
-CC=~/.brew/Cellar/nasm/2.12.01/bin/nasm
+CC=gcc
 
-CFLAGS=-f macho64
+CFLAGS= -Wall -Wextra -Werror
 
 RM=rm -f
 
-SRC=ft_bzero.s\
-	ft_strcat.s\
+SRC=
 
-OBJ=$(SRC:.s=.o)
+LIB=-L ../libfts.a
+INCL=-I ../includes -I .
 
-INCL=includes/
+OBJ=$(SRC:.c=.o)
 
-$(NAME): $(OBJ) $(INCL)/libfts.h
-	@ar rc $(NAME) $(OBJ)
-	@echo "[.o] >> $(NAME)"
-	@ranlib $(NAME)
+$(NAME): $(OBJ) $(PARENT).h
+	@echo "Compiling for " $(UNAME)
+	@make -C ..
+	@echo "[>>libfts<<]"
+	@$(CC) -o $(NAME) $(OBJ) $(LIB) $(CFLAGS)
+	@echo "[.o] >> [$(NAME)]"
 
-%.o: %.s
-	$(CC) -I $(INCL) $(CFLAGS) $< -o $@
+%.o: %.c
+	@-$(CC) $(INCL) -c $< -o $@ $(CFLAGS)
 	@echo "$< >> $@"
 
 all: $(NAME)
 
+announce_name:
+	@echo "Making $(NAME)"
+
+norm:
+	@norminette $(SRC) $(PARENT).h
+
 clean:
-		$(RM) $(OBJ)
+	@make -C libft/ clean
+	@$(RM) $(OBJ)
+	@echo "[.o] >> /dev/null"
 
 fclean: clean
-		$(RM) $(NAME)
+	@make -C libft/ fclean
+	@$(RM) $(NAME)
+	@echo "[rt] >> /dev/null"
 
 re: fclean all
 
-.PHONY: clean fclean
+.PHONY: clean fclean all norm re
