@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: fnieto <marvin@42.fr>                      +#+  +:+       +#+         #
+#    By: fnieto <fnieto@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/03/09 20:50:44 by fnieto            #+#    #+#              #
-#    Updated: 2016/05/05 23:02:45 by fnieto           ###   ########.fr        #
+#    Updated: 2017/02/19 19:02:44 by fnieto           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,7 @@ INCL=-I ../includes -I .
 
 OBJ=$(SRC:.c=.o)
 
-$(NAME): $(OBJ) $(PARENT).h
+$(NAME): $(OBJ)
 	@echo "Compiling for " $(UNAME)
 	@make -C ..
 	@echo "[>>libfts<<]"

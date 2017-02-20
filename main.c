@@ -3,130 +3,80 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: fnieto <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: fnieto <fnieto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/06 00:11:31 by fnieto            #+#    #+#             */
-/*   Updated: 2016/05/08 22:32:45 by fnieto           ###   ########.fr       */
+/*   Updated: 2017/02/19 20:42:20 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <libc.h>
 #include "libfts.h"
 
+static inline uint64_t rdtsc(void)
+{
+    uint32_t eax, edx;
+    asm volatile("rdtsc\n\t": "=a" (eax), "=d" (edx));
+    return (uint64_t)eax | (uint64_t)edx << 32;
+}
+
+#define TEST(fn, ret, ...) \
+	{\
+		long a;\
+		long b;\
+		a = rdtsc();\
+		fn(__VA_ARGS__);\
+		b = rdtsc();\
+		ret = b - a;\
+	}\
+
+#define TESTITER(fn, ret, iter, ...)\
+	{\
+		long a;\
+		long b;\
+		long i = iter;\
+		ret = 0;\
+		while (i-- > 0)\
+		{\
+			a = rdtsc();\
+			fn(__VA_ARGS__);\
+			b = rdtsc();\
+			ret += b - a;\
+		}\
+	}\
+
 int		main(int ac, char **av)
 {
 	char	*ptr;
 	int		len;
+	int		iter;
 	int		i;
-	struct timeval timea;
-	struct timeval timeb;
+	uint64_t	a;
+	uint64_t	b;
 	long	diff;
 
-	len = 2000;
+	len = 1000000;
+	iter = 1;
 	ptr = malloc(len);
-	printf("ft_bzero(2000):\nbefore:\n");
-	i = -1;
-	memset(ptr, 1, len);
-	while (++i < len)
-		printf("%i ", ptr[i]);
-	printf("\nafter:\n");
-	i = -1;
-	gettimeofday(&timea, 0);
-	while (++i < 1000000)
-		ft_bzero(ptr, len);
-	gettimeofday(&timeb, 0);
-	diff = ((timeb.tv_usec + timeb.tv_sec * 1e6) -
-		(timea.tv_usec + timea.tv_sec * 1e6));
-	i = -1;
-	while (++i < len)
-		printf("%i ", ptr[i]);
-	free(ptr);
-	printf("\nsolved in %lf s\n", diff / 1000000.);
 
-	ptr = malloc(len);
-	printf("ft_bzero(2000):\nbefore:\n");
-	i = -1;
+	printf("ft_bzero(2000):\n");
 	memset(ptr, 1, len);
-	while (++i < len)
-		printf("%i ", ptr[i]);
-	printf("\nafter:\n");
-	i = -1;
-	gettimeofday(&timea, 0);
-	while (++i < 1000000)
-		bzero(ptr, len);
-	gettimeofday(&timeb, 0);
-	diff = ((timeb.tv_usec + timeb.tv_sec * 1e6) -
-		(timea.tv_usec + timea.tv_sec * 1e6));
-	i = -1;
-	while (++i < len)
-		printf("%i ", ptr[i]);
-	free(ptr);
-	printf("\nsolved in %lf s\n", diff / 1000000.);
+	TESTITER(ft_bzero, diff, iter, ptr, len);
+	printf("solved in %li ticks\n", diff);
+
+	printf("\n\nbzero(2000):\n");
+	memset(ptr, 1, len);
+	TESTITER(bzero, diff, iter, ptr, len);
+	printf("solved in %li ticks\n", diff);
 
 	len = 0;
-	ptr = malloc(len);
-	printf("ft_bzero(0):\nbefore:\n");
-	i = -1;
-	while (++i < len)
-		printf("%i ", ptr[i]);
-	printf("\nafter:\n");
-	i = -1;
-	gettimeofday(&timea, 0);
-	while (++i < 1000000)
-		ft_bzero(ptr, len);
-	gettimeofday(&timeb, 0);
-	diff = ((timeb.tv_usec + timeb.tv_sec * 1e6) -
-		(timea.tv_usec + timea.tv_sec * 1e6));
-	i = -1;
-	while (++i < len)
-		printf("%i ", ptr[i]);
-	free(ptr);
-	printf("\nsolved in %lf s\n", diff / 1000000.);
+	printf("\n\nft_bzero(0):\n");
+	TESTITER(ft_bzero, diff, iter, ptr, len);
+	printf("solved in %li ticks\n", diff);
 
-	len = 10;
-	ptr = malloc(len);
-	printf("ft_bzero(null):\nbefore:\n");
-	i = -1;
-	while (++i < len)
-		printf("%i ", ptr[i]);
-	printf("\nafter:\n");
-	i = -1;
-	gettimeofday(&timea, 0);
-	while (++i < 1000000)
-		ft_bzero(0, len);
-	gettimeofday(&timeb, 0);
-	diff = ((timeb.tv_usec + timeb.tv_sec * 1e6) -
-		(timea.tv_usec + timea.tv_sec * 1e6));
-	i = -1;
-	while (++i < len)
-		printf("%i ", ptr[i]);
-	free(ptr);
-	printf("\nsolved in %lf s\n", diff / 1000000.);
+	printf("\n\nbzero(0):\n");
+	TESTITER(bzero, diff, iter, ptr, len);
+	printf("solved in %li ticks\n", diff);
 
-	len = 10;
-	ptr = malloc(len);
-	printf("ft_strcat(\"\", \"aaa\"):\nbefore:\n");
-	i = -1;
-	ptr[0] = 0;
-	strcpy(ptr, "ba");
-	while (++i < len)
-		printf("%i ", ptr[i]);
-	printf("\nafter:\n");
-	i = -1;
-	gettimeofday(&timea, 0);
-	while (++i < 1000000)
-	{
-		ptr[2] = 0;
-		ft_strcat(ptr, "cba0123");
-	}
-	gettimeofday(&timeb, 0);
-	diff = ((timeb.tv_usec + timeb.tv_sec * 1e6) -
-		(timea.tv_usec + timea.tv_sec * 1e6));
-	i = -1;
-	while (++i < len)
-		printf("%i ", ptr[i]);
-	printf("\n%s\n", ptr);
 	free(ptr);
-	printf("solved in %lf s\n", diff / 1000000.);
-
 }
