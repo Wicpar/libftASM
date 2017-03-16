@@ -64,7 +64,6 @@ _ft_bzero:
 	movdqa [rdi + 16], xmm0
 	movdqa [rdi + 32], xmm0
 	movdqa [rdi + 48], xmm0
-	
 	add rdi, 64
 	dec rsi
 	jnz .loopey

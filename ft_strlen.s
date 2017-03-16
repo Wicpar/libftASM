@@ -1,18 +1,25 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    runmain.sh                                         :+:      :+:    :+:    #
+#    ft_strlen.s                                        :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: fnieto <fnieto@student.42.fr>              +#+  +:+       +#+         #
+#    By: fnieto <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2016/05/06 00:18:40 by fnieto            #+#    #+#              #
-#    Updated: 2017/03/16 19:41:57 by fnieto           ###   ########.fr        #
+#    Created: 2017/03/16 15:52:16 by fnieto            #+#    #+#              #
+#    Updated: 2017/03/16 15:52:17 by fnieto           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-make
-gcc -I includes -O0 -c main.c -o main.o
-gcc -I includes libfts.a main.o -o test
-rm main.o
-time ./test
-#rm test
+global _ft_strlen
+
+_ft_strlen:
+	xor rax, rax
+	test rdi, rdi
+	jz .end
+	mov rcx, -1
+	cld
+	repne scasb
+	mov rax, -2
+	sub rax, rcx
+.end:
+	ret

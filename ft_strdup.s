@@ -1,18 +1,16 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    runmain.sh                                         :+:      :+:    :+:    #
+#    ft_strdup.s                                        :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: fnieto <fnieto@student.42.fr>              +#+  +:+       +#+         #
+#    By: fnieto <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2016/05/06 00:18:40 by fnieto            #+#    #+#              #
-#    Updated: 2017/03/16 19:41:57 by fnieto           ###   ########.fr        #
+#    Created: 2017/03/16 15:52:12 by fnieto            #+#    #+#              #
+#    Updated: 2017/03/16 15:52:13 by fnieto           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-make
-gcc -I includes -O0 -c main.c -o main.o
-gcc -I includes libfts.a main.o -o test
-rm main.o
-time ./test
-#rm test
+global _ft_strdup
+
+_ft_strdup:
+	ret

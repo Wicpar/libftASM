@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: fnieto <marvin@42.fr>                      +#+  +:+       +#+         #
+#    By: fnieto <fnieto@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/04/30 19:43:25 by fnieto            #+#    #+#              #
-#    Updated: 2016/05/08 20:45:12 by fnieto           ###   ########.fr        #
+#    Updated: 2017/03/16 16:37:17 by fnieto           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,20 @@ CFLAGS=-f macho64
 RM=rm -f
 
 SRC=ft_bzero.s\
+	ft_cat.s\
+	ft_isalnum.s\
+	ft_isalpha.s\
+	ft_isascii.s\
+	ft_isdigit.s\
+	ft_isprint.s\
+	ft_memcpy.s\
+	ft_memset.s\
+	ft_puts.s\
 	ft_strcat.s\
+	ft_strdup.s\
+	ft_strlen.s\
+	ft_tolower.s\
+	ft_toupper.s\
 
 OBJ=$(SRC:.s=.o)
 

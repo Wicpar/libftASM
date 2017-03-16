@@ -6,7 +6,7 @@
 /*   By: fnieto <fnieto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/06 00:11:31 by fnieto            #+#    #+#             */
-/*   Updated: 2017/03/15 00:01:20 by fnieto           ###   ########.fr       */
+/*   Updated: 2017/03/16 21:17:48 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +72,11 @@ int		main(int ac, char **av)
 	padding = 16;
 	offset = 3;
 	len = 15;
-	iter = 1000;
+	iter = 10;
 
 	i = -1;
 	diff = 0;
-	while (++i < 1600) {
+	while (++i < 16000) {
 		int j = -1;
 		long tmpa = 9223372036854775807;
 		long tmpb = 9223372036854775807;
@@ -125,6 +125,11 @@ int		main(int ac, char **av)
 	printf("\n\nbzero(%i):\n", len);
 	TESTITER(bzero, diff, iter, ptr, len);
 	printf("solved in %li ticks\n", diff);
+
+	const char *lolo = "lolo";
+	ft_puts(lolo);
+	ft_puts(lolo);
+	printf("puts: me: %i, them: %i\n", ft_puts(lolo), puts(lolo));
 
 	free(ptr - offset);
 }
