@@ -12,5 +12,35 @@
 
 global _ft_cat
 
+section .data align=128
+
+buf: resb 512
+.len: equ $ - buf
+
+section .text align=128
+
 _ft_cat:
+	push rbp
+	mov rbp, rsp
+.read:
+	push rdi
+	mov rax, 0x2000003
+	lea rsi, [rel buf]
+	mov rdx, buf.len
+	syscall
+	jc .err
+	test rax, rax
+	jz .end
+	mov rdi, [rsp]
+	mov rdx, rax
+	lea rsi, [rel buf]
+	mov rax, 0x2000004
+	syscall
+	jc .err
+	jmp .read
+.err:
+	mov rax, 1
+.end:
+	mov rsp, rbp
+	pop rbp
 	ret

@@ -19,6 +19,6 @@ _ft_toupper:
 	test rax, rax
 	jz .end
 	and rsi, ~0x20
-.end
+.end:
 	mov rax, rsi
 	ret

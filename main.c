@@ -6,7 +6,7 @@
 /*   By: fnieto <fnieto@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/05/06 00:11:31 by fnieto            #+#    #+#             */
-/*   Updated: 2017/03/16 21:17:48 by fnieto           ###   ########.fr       */
+/*   Updated: 2017/03/17 18:10:18 by fnieto           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,10 +126,10 @@ int		main(int ac, char **av)
 	TESTITER(bzero, diff, iter, ptr, len);
 	printf("solved in %li ticks\n", diff);
 
-	const char *lolo = "lolo";
-	ft_puts(lolo);
-	ft_puts(lolo);
-	printf("puts: me: %i, them: %i\n", ft_puts(lolo), puts(lolo));
-
+	const char *lolo = "Montpellier, first mentioned in a document of 985, was founded under a local feudal dynasty, the Guilhem, who combined two hamlets and built a castle and walls around the united settlement. The two surviving towers of the city walls, the Tour des Pins and the Tour de la Babotte, were built later, around the year 1200.";
+	char *test = ft_strdup(lolo);
+	printf("%s", test);
+	free(test);
 	free(ptr - offset);
+	ft_cat(0);
 }
